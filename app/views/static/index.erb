@@ -1,34 +1,71 @@
+<!DOCTYPE html>
+<html >
+  <head>
+    <meta charset="UTF-8">
+    <title>Quora Clone</title>
+
+    	<link rel='stylesheet prefetch' href='http://fonts.googleapis.com/css?family=Roboto+Slab'>
+
+		<title>Quora</title>
 
 
+		<link href="/css/application.css" rel="stylesheet" type="text/css">
 
+		 <script src="js/prefixfree.min.js"></script>
+		
+
+
+ </head>
 
     <div id="header">
       <h1>Quora</h1>
     </div>
 
-    <div id="signin">
-    	<h2>Sign up for an account!</h2>
-		<form method="post" action="/signup">
-		    <input type=text placeholder="Full Name" name="user[full_name]"><br>
-		    <input type=text placeholder="Username" name="user[username]"><br>
-		    <input type=text placeholder="Email" name="user[email]"><br>
-		    <input type=password placeholder="Password" name="password"></br>
-		    <input type=submit value="Sign up">
-		</form>
 
-			<br>
-			<br>
-			<br>
-			<br>
+ <body>
+ 	<div class='preload signup--container'>
+	    <div class="signup--form"><!-- 
+	    	<h2>Sign up for an account!</h2> -->
+	    	<!-- <div class = 'login--username-container'> -->
+				<form method="post" action="/signup">
+				    <input type=text autofocus placeholder="Name" name="user[full_name]"><br>
+				    <input type=text placeholder="Email" name="user[email]"><br>
+				    <input type=password placeholder="Password" name="password"></br>
+				    <input type=submit value="Sign up" class='js-toggle-login login--login-submit'>
+				</form>
+		<!-- 	</div> -->
+		</div>
+<!-- 
+		<div class='login--toggle-container'>
+		    <small>Hey you,</small>
+		    <div class='js-toggle-login'>Login</div>
+		    <small>already</small>
+		</div>
+	</div> -->
 
-		 <h3>Login to your account!</h3>
-		<form method=post action=/login>
-		    <input type=text placeholder="Email" name="email"><br>
-		    <input type=password placeholder="Password" name="password"></br>
-		    <input type=submit value="Login">
-		</form>
-    </div>
+
+	<div class='preload login--container'>
+	<div class="login--form"><!-- 
+		<h2>Log in to an account!</h2> -->
+		<!-- <div class = 'login--username-container'> -->
+			<form method=post action=/login>
+			    <input type=text autofocus placeholder="Email" name="email"><br>
+			    <input type=password placeholder="Password" name="password"></br>
+			    <input type=submit value="Login" class='js-toggle-login login--login-submit'>
+			</form>
+		<!-- </div> -->
+	</div>
+
+	<!-- <div class='login--toggle-container'>
+	    <small>Hey you,</small>
+	    <div class='js-toggle-login'>Sign up</div>
+	    <small>already</small>
+	</div>
+	</div> -->
 
 
+	
+  </body>
+ </html>
 
 

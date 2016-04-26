@@ -5,7 +5,7 @@
       return function() {
         return $(".login--container").toggleClass("login--active");
       };
-    })(this),2000);
+    })(this), 2000);
     return $(".js-toggle-login").click((function(_this) {
       return function() {
         window.clearTimeout(_this.timer);
