@@ -1,4 +1,10 @@
 
+
+
+
+
+
+
 <html >
 	<head >
 		<link href='https://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
@@ -14,7 +20,6 @@
  
 
 	<body>
-		
 		
 		<button id="home" class="float-left submit-button" >Home</button>
 
@@ -32,20 +37,28 @@
 	    	};
 		</script>
 
-		<button id="myqa" class="float-left submit-button" >My Q+As </button>
+
+
+		<div>
+			<h1>  <%= session[:user_name] %> </h1>
+		</div>
+
+
+		<button id="profile" class="float-left submit-button" >Profile</button>
 
 		<script type="text/javascript">
-	    	document.getElementById("myqa").onclick = function () {
-	        location.href = "http://localhost:9393/profile/myqa";
+	    	document.getElementById("profile").onclick = function () {
+	        location.href = "http://localhost:9393/urls/profile/<%=session[:user_id] %>";
 	    	};
 		</script>
 
 
-		<h2><%=@user.full_name %></h2> 
-		<h3><%=@user.email %></h3> 
-		<h4><%=@user.username %></h4> 
-
+		<h2>Ask a question </h2>
+		<form method="post" action="/ask">
+		    <textarea name="question[text]" rows="10" cols="30">Enter a question</textarea> 
+		     <br>
+		    <input type=submit value="Ask">
+		</form>
+		
 	</body>
 </html>
-
-

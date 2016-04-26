@@ -5,7 +5,11 @@ require_relative '../models/user.rb'
 
 enable :sessions 
 
+#go home
 
+get '/home' do 
+  erb :"urls/home"
+end
 
 get '/' do
   erb :"static/index"
@@ -27,13 +31,7 @@ get '/urls/error' do
 	erb :"urls/error"
 end	
 
-#if login is legit
-get '/urls/:id' do 
-	session[:start_time]  ||= Time.now.getutc 
-	session[:user_id] = params[:id]
-	@user = User.find(params[:id])
-	erb :"urls/home"
-end	
+
 
 
 get '/urls/profile/:id' do 
@@ -42,7 +40,6 @@ get '/urls/profile/:id' do
 end	
 
 get '/logout' do
-	byebug
   session[:user_id] = nil
   session[:end_time] = Time.now.getutc
   redirect '/'
@@ -59,6 +56,67 @@ post '/login' do
   end
 
 end
+
+#click on ask button 
+
+get '/urls/askpage' do 
+  erb :"urls/ask"
+end
+
+#adds quesiton to the table 
+post '/ask' do
+  @question = Question.create(params[:question])
+  @question.user_id = session[:user_id]
+  @question.save
+  erb :"urls/home"
+end  
+
+
+
+
+#if login is legit
+get '/urls/:id' do 
+  session[:start_time]  ||= Time.now.getutc 
+  @user = User.find(params[:id])
+  session[:user_name] = @user.full_name
+  session[:user_id] = params[:id]
+  @user = User.find(params[:id])
+  erb :"urls/home"
+end 
+
+get '/question/:id' do 
+  @question = Question.find(params[:id])
+  erb :'urls/onequestion'
+
+end
+
+
+#the id is that of the question 
+post '/answer/:id' do
+  @answer = Answer.create(params[:answer])
+  @answer.user_id = session[:user_id]
+  @answer.question_id = params[:id]
+  @answer.save
+  
+  redirect '/home'
+end  
+
+   
+get '/profile/myqa' do 
+  erb :'urls/myqa'
+
+end
+
+
+
+
+
+
+
+
+
+
+
 
 
 

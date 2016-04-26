@@ -4,6 +4,9 @@ require 'bcrypt'
 class User < ActiveRecord::Base
 	include BCrypt
 
+	has_many :questions
+	has_many :answers
+
 	 validates :email, format: {with: /\A([\w+\-].?)+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i, message: "Not a valid email"}
 	 validates :email, uniqueness: {message: "This email is already in use"}
 	 validates :username, uniqueness: {message: "This username is taken"}

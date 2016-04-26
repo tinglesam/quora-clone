@@ -1,4 +1,3 @@
-
 <html >
 	<head >
 		<link href='https://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
@@ -15,7 +14,10 @@
 
 	<body>
 		
-		
+		<div>
+			<h1>  <%= session[:user_name] %> </h1>
+		</div>
+
 		<button id="home" class="float-left submit-button" >Home</button>
 
 		<script type="text/javascript">
@@ -32,20 +34,45 @@
 	    	};
 		</script>
 
-		<button id="myqa" class="float-left submit-button" >My Q+As </button>
+
+		<button id="profile" class="float-left submit-button" >Profile</button>
 
 		<script type="text/javascript">
-	    	document.getElementById("myqa").onclick = function () {
-	        location.href = "http://localhost:9393/profile/myqa";
+	    	document.getElementById("profile").onclick = function () {
+	        location.href = "http://localhost:9393/urls/profile/<%=session[:user_id] %>";
 	    	};
 		</script>
 
 
-		<h2><%=@user.full_name %></h2> 
-		<h3><%=@user.email %></h3> 
-		<h4><%=@user.username %></h4> 
+		<div class = "onequestion"
+
+		  <div class = "question">
+		  	<p1> Question <%= @question.id%> </p1> 
+		  	<br> <br>
+		    <p2><%= @question.text %> </p2>   
+		    <%= @user = User.find(@question.user_id)%> <br>
+		    <p3> Asked by <%= @user.full_name%> </p3>
+		   <br><br><br><br><br>
+		 </div>
+
+		</div>
+			
+	  	<h2>Answer the question </h2>
+		<form method="post" action="/answer/<%= @question.id%>">
+		    <textarea name="answer[text]" rows="10" cols="30">Enter an answer</textarea> 
+		     <br>
+		    <input type=submit value="Answer">
+		</form>
 
 	</body>
 </html>
+
+
+
+
+
+
+
+
 
 

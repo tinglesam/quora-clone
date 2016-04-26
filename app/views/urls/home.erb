@@ -1,6 +1,5 @@
 
 
-
 <html >
 	<head >
 		<link href='https://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
@@ -16,6 +15,9 @@
  
 
 	<body>
+
+
+
 		
 		<button id="logout" class="float-left submit-button" >Logout</button>
 
@@ -30,13 +32,58 @@
 
 		<script type="text/javascript">
 	    	document.getElementById("profile").onclick = function () {
-	        location.href = "http://localhost:9393/urls/profile/<%=@user.id %>";
+	        location.href = "http://localhost:9393/urls/profile/<%=session[:user_id] %>";
 	    	};
 		</script>
 
 
-		<h4><%= @user.id %></h4> 
 		
+		<!-- button to go ask a question  -->
+
+		<button id="ask" class="float-left submit-button" >Ask a Question</button>
+
+		<script type="text/javascript">
+	    	document.getElementById("ask").onclick = function () {
+	        location.href = "http://localhost:9393/urls/askpage";
+	    	};
+		</script>
+		<div>
+			<h1> Welcome <%= session[:user_name] %> </h1>
+		</div>
+		
+
+	        
+        <% Question.all.each do |x| %>
+          <div class = "question">
+          	 <a href = "/question/<%= x.id %>" > Question <%= x.id%> </a>
+          	<br> <br>
+            <div><%= x.text %> </div>   
+            <%= @user = User.find(x.user_id)%> <br>
+            <p3> Asked by <%= @user.full_name%> </p3>
+           <br>
+
+
+           <% Answer.all.each do |ans| %>
+           <br>
+           		
+           		<!-- checks if the id of the question and answer match -->
+    			<% if ans.question_id == x.id %>
+    			<p4> Answer </p4>
+    				<div><%= ans.text %> <br>
+    					 <%= @user = User.find(ans.user_id) %> 
+    					 Answered by 
+    					<%= @user.full_name %>
+    				</div>
+    			<% end %>
+
+
+
+           <% end %>
+           <br><br>
+         </div>
+        <% end %>
+	  
+
 	</body>
 </html>
 
