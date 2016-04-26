@@ -1,0 +1,43 @@
+
+
+
+<html >
+	<head >
+		<link href='https://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
+
+		<title>Quora</title>
+
+
+		<link href="/css/application.css" rel="stylesheet" type="text/css">
+		<script src="/js/jquery-1.12.3.min.js"></script>
+		<script type="text/javascript"  src ="/js/application.js"></script>
+	</head>
+
+ 
+
+	<body>
+		
+		<button id="logout" class="float-left submit-button" >Logout</button>
+
+		<script type="text/javascript">
+	    	document.getElementById("logout").onclick = function () {
+	        location.href = "http://localhost:9393/logout";
+	    	};
+		</script>
+
+
+		<button id="profile" class="float-left submit-button" >Profile</button>
+
+		<script type="text/javascript">
+	    	document.getElementById("profile").onclick = function () {
+	        location.href = "http://localhost:9393/urls/profile/<%=@user.id %>";
+	    	};
+		</script>
+
+
+		<h4><%= @user.id %></h4> 
+		
+	</body>
+</html>
+
+
