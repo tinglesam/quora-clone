@@ -8,8 +8,27 @@ enable :sessions
 #go home
 
 get '/home' do 
+    @question_sorted = []
+    Question.all.each do |ques|
+      @question_sorted << ques
+      @question_sorted.sort! { |a,b| b.upvote <=> a.upvote }
+    end
+    @answer_sorted = []
+    Answer.all.each do |ques|
+      @answer_sorted << ques
+      @answer_sorted.sort! { |a,b| b.upvote <=> a.upvote }
+    end
   erb :"urls/home"
+
 end
+
+# get '/home' do 
+#   erb :"urls/home"
+
+# end
+
+
+
 
 get '/' do
   erb :"static/index"
@@ -67,8 +86,10 @@ end
 post '/ask' do
   @question = Question.create(params[:question])
   @question.user_id = session[:user_id]
+  @question.upvote = 0
+  @question.downvote = 0
   @question.save
-  erb :"urls/home"
+  redirect '/home'
 end  
 
 
@@ -81,11 +102,13 @@ get '/urls/:id' do
   session[:user_name] = @user.full_name
   session[:user_id] = params[:id]
   @user = User.find(params[:id])
-  erb :"urls/home"
+  redirect '/home'
 end 
 
 get '/question/:id' do 
   @question = Question.find(params[:id])
+  
+
   erb :'urls/onequestion'
 
 end
@@ -96,6 +119,8 @@ post '/answer/:id' do
   @answer = Answer.create(params[:answer])
   @answer.user_id = session[:user_id]
   @answer.question_id = params[:id]
+  @answer.upvote = 0
+  @answer.downvote = 0
   @answer.save
   
   redirect '/home'
@@ -108,9 +133,31 @@ get '/profile/myqa' do
 end
 
 
+post '/question/qid/vote/:status' do
+  @question = Question.find(params[:quesid])
+  case params[:status]
+    when "downvote"
+      @question.downvote += 1
+    when "upvote"
+      @question.upvote += 1 
+    end
 
+    @question.save
+    redirect '/home'
+end  
 
+post '/answer/aid/vote/:status' do
+  @answer = Answer.find(params[:answid])
+  case params[:status]
+    when "downvote"
+      @answer.downvote += 1
+    when "upvote"
+      @answer.upvote += 1 
+    end
 
+    @answer.save
+    redirect '/home'
+end  
 
 
 

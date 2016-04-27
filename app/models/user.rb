@@ -9,7 +9,7 @@ class User < ActiveRecord::Base
 
 	 validates :email, format: {with: /\A([\w+\-].?)+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i, message: "Not a valid email"}
 	 validates :email, uniqueness: {message: "This email is already in use"}
-	 validates :username, uniqueness: {message: "This username is taken"}
+	 
 
 	 def password
     	@password ||= Password.new(password_hash)

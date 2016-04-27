@@ -20,6 +20,7 @@ gem 'pg'
 gem 'bcrypt', '~> 3.1.7'
 
 gem 'byebug'
+gem 'acts_as_votable'
 
 # Adding rake for management
 gem 'rake'

@@ -1,0 +1,15 @@
+.single-question {
+/*
+	display: block;
+  font-weight: bold;
+  font-size: 0.7em;*/
+  margin-bottom: 4px;
+	width: 70 px;/*
+  background-color: #F2F0E4;*/
+  background: rgb(255, 255, 255); 
+    background: rgba(255, 255, 255, 0.75);
+  margin: auto;
+  top: 50px
+  position: center;
+   text-align: center;
+}

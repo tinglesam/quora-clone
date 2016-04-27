@@ -12,6 +12,8 @@ class CreateUsers< ActiveRecord::Migration
 		create_table :questions do |x|
 			x.belongs_to :user, index: true
 			x.text :text
+			x.integer :upvote
+			x.integer :downvote
 			#has a user_id
 			x.timestamps null: false
 		end
@@ -21,6 +23,8 @@ class CreateUsers< ActiveRecord::Migration
 			x.belongs_to :user, index: true
 			x.belongs_to :question, index: true
 			x.text :text
+			x.integer :upvote
+			x.integer :downvote
 			#has a user_id
 			x.timestamps null: false
 		end

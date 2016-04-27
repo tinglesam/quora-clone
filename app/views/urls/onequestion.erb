@@ -52,10 +52,24 @@
 		    <p2><%= @question.text %> </p2>   
 		    <%= @user = User.find(@question.user_id)%> <br>
 		    <p3> Asked by <%= @user.full_name%> </p3>
-		   <br><br><br><br><br>
+		   <br><br>
 		 </div>
 
+
+
+			<p4> Answers </p4>
+	     	<% Answer.all.each do |ans| %>
+	       
+			<% if ans.question_id.to_i == @question.id %>
+				<div><%= ans.text %> 
+				</div>
+			<% end %>
+			<br>
+			<% end %>
+
+			<br><br><br>
 		</div>
+
 			
 	  	<h2>Answer the question </h2>
 		<form method="post" action="/answer/<%= @question.id%>">
