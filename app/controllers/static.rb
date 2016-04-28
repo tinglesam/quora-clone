@@ -7,6 +7,10 @@ enable :sessions
 
 #go home
 
+@question_sorted = []
+@answer_sorted = []
+
+
 get '/home' do 
     @question_sorted = []
     Question.all.each do |ques|
@@ -24,7 +28,6 @@ end
 
 # get '/home' do 
 #   erb :"urls/home"
-
 # end
 
 
@@ -60,6 +63,7 @@ end
 get '/logout' do
   session[:user_id] = nil
   session[:end_time] = Time.now.getutc
+  session[:user] = nil
   redirect '/'
 end
 get '/login' do
@@ -86,8 +90,9 @@ end
 
 #adds quesiton to the table 
 post '/ask' do
-  if params[:question].length > 3
-    @question = Question.create(params[:question])
+  byebug
+  if params[:text].length > 3
+    @question = Question.create(text: params[:text])
     @question.user_id = session[:user_id]
     @question.upvote = 0
     @question.downvote = 0
@@ -104,6 +109,8 @@ end
 get '/urls/:id' do 
   session[:start_time]  ||= Time.now.getutc 
   @user = User.find(params[:id])
+  session[:user] = @user
+
   session[:user_name] = @user.full_name
   session[:user_id] = params[:id]
   @user = User.find(params[:id])
@@ -127,6 +134,8 @@ post '/answer/:id' do
   @answer.upvote = 0
   @answer.downvote = 0
   @answer.save
+
+
   
   redirect '/home'
 end  

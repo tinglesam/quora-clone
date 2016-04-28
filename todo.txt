@@ -1,1 +1,77 @@
-todo.txt
+make an ajax upvote
+make a flash message for errors
+set it up where have to login to get to certain pages
+
+
+
+
+make it go to homepage and log in when try ot vote or answer
+
+
+
+
+		<button id="logout" class="float-left submit-button" >Logout</button>
+
+		<script type="text/javascript">
+	    	document.getElementById("logout").onclick = function () {
+	        location.href = "http://localhost:9393/logout";
+	    	};
+		</script>
+
+
+		<button id="profile" class="float-left submit-button" >Profile</button>
+
+		<script type="text/javascript">
+	    	document.getElementById("profile").onclick = function () {
+	        location.href = "http://localhost:9393/urls/profile/<%=session[:user_id] %>";
+	    	};
+		</script>
+
+
+		
+		<!-- button to go ask a question  -->
+
+		<button id="ask" class="float-left submit-button" >Ask a Question</button>
+
+		<script type="text/javascript">
+	    	document.getElementById("ask").onclick = function () {
+	        location.href = "http://localhost:9393/urls/askpage";
+	    	};
+		</script>
+
+
+
+
+
+
+
+
+
+
+
+		show only first anser
+
+
+					<% @answer_sorted.each do |ans| %>
+				<% if ans.question_id == x.id  %>
+				<div><%= ans.text %> <br>
+    					 <%= @user = User.find(ans.user_id) %> 
+    					 Answered by 
+    					<%= @user.full_name %>
+    					<p id = "upvote" > Ups <%= ans.upvote%> </p> 
+            			<p id = "downvote"> Downs <%= ans.downvote%> </p> 
+    				</div>
+    				
+    				<form method="post" action="/answer/aid/vote/upvote">
+        				<input type=hidden name= "answid"  value="<%= ans.id %>"/>
+			    		<input type=submit value="upvote -a">
+					</form>
+
+					<form method="post" action="/answer/aid/vote/downvote">
+						<input type=hidden name= "answid"  value="<%= ans.id %>"/>
+					    <input type=submit value="downvote -a">
+					</form>
+					<% break %>
+    			<% end %>
+
+       		 <% end %>

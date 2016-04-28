@@ -16,7 +16,7 @@
 
 	</head>
 
- 
+
 
 	<body>
 
@@ -26,7 +26,7 @@
 			    <li style = "float:left">
 
 				<form  method="post" action="/ask">
-				    <input taborder="1" type="text" class="enter-ques" placeholder="enter a question" name="question[text]" > 
+				    <input taborder="1" type="text" class="enter-ques" placeholder="enter a question" name="text" > 
 				    <input type=submit value="Ask" id='ask-button'>
 				</form>
 
@@ -34,7 +34,7 @@
 
 			  </li>
 			  <!-- <li><a href="/urls/askpage">ASK</a></li> -->
-			  <li><a href="/urls/profile/<%=session[:user_id] %>">PROFILE</a></li>
+			  
 
 
 			  <% if session[:user_id] == nil %>
@@ -44,57 +44,33 @@
 
 			  <% end%>
 			  <li><a href="/<%= @status.downcase %>"><%= @status%></a></li>
+			  <li><a href="/urls/profile/<%=session[:user_id] %>"> Hi, <%= session[:user_name] %>!</a></li>
 			</ul>
 
 
-		
-		<button id="logout" class="float-left submit-button" >Logout</button>
-
-		<script type="text/javascript">
-	    	document.getElementById("logout").onclick = function () {
-	        location.href = "http://localhost:9393/logout";
-	    	};
-		</script>
-
-
-		<button id="profile" class="float-left submit-button" >Profile</button>
-
-		<script type="text/javascript">
-	    	document.getElementById("profile").onclick = function () {
-	        location.href = "http://localhost:9393/urls/profile/<%=session[:user_id] %>";
-	    	};
-		</script>
-
-
-		
-		<!-- button to go ask a question  -->
-
-		<button id="ask" class="float-left submit-button" >Ask a Question</button>
-
-		<script type="text/javascript">
-	    	document.getElementById("ask").onclick = function () {
-	        location.href = "http://localhost:9393/urls/askpage";
-	    	};
-		</script>
-
-		<div>
-			<h1> Welcome <%= session[:user_name] %> </h1>
-		</div>
-		
+	
 
 
 
 
 
-	     <div class = "question">   
+
+	     <div style="margin-top: 30px" class = "question">   
         <% @question_sorted.each do |x| %>
-          <div class = "single-question">
-          	 <a href = "/question/<%= x.id %>" > Question <%= x.id%> </a>
-          	<br> <br>
-            <div><%= x.text %> </div>   
-            <%= @user = User.find(x.user_id)%> <br>
-            <p3> Asked by <%= @user.full_name%> </p3>
-            <p id = "upvote" > Ups <%= x.upvote%> </p> 
+           <div class="container" id="body-feed">
+          	 <!-- <a href = "/question/<%= x.id %>" > Question <%= x.id%> </a> -->
+          	<!-- <br> <br> -->
+          	<div style="clear: both">
+	            <h3 id="question-feed"> <a href = "/question/<%= x.id %>" ><%= x.text %> </a>
+	            <%= @user = User.find(x.user_id)%> 
+	            </h3> 
+
+	            <h4 id="name-first-answer"> Asked by: <%= @user.full_name %> </h4 >   
+            <!-- <p3> Asked by <%= @user.full_name%> </p3> -->
+        	</div>
+			
+
+    <!--         <p id = "upvote" > Ups <%= x.upvote%> </p> 
             <p id = "downvote"> Downs <%= x.downvote%> </p> 
 
 
@@ -106,37 +82,53 @@
 			<form method="post" action="/question/qid/vote/downvote">
 				<input type=hidden name= "quesid"  value="<%= x.id %>"/>
 			    <input type=submit value="downvote -q">
-			</form>
+			</form> -->
+
+			<!-- PUT OUT THE FIRST ANSWER -->
+
+
+
+
+       		 <!-- ADD ANSWER BUTTON -->
+			 <form method=post action="/answer/<%= x.id %>" >
+                <input type=text placeholder = "Answer here" name="answer[text]" class="ques-answer-input">
+                <input type=submit value="Answer" id='answer-button'>
+              </form>
+
+
+				<!-- <button type="button" id ="show-button" data-toggle="collapse" data-target="#answers<%=x.id %>">Show all answers</button> -->
+
+			<h4> Answers </h4 > 
 
            <% @answer_sorted.each do |ans| %>
-           <br>
            		
            		<!-- checks if the id of the question and answer match -->
+
     			<% if ans.question_id == x.id %>
-    			<p4> Answer </p4>
-    				<div><%= ans.text %> <br>
-    					 <%= @user = User.find(ans.user_id) %> 
-    					 Answered by 
-    					<%= @user.full_name %>
-    					<p id = "upvote" > Ups <%= ans.upvote%> </p> 
-            			<p id = "downvote"> Downs <%= ans.downvote%> </p> 
-    				</div>
+    			 <p> <%= @user = User.find(ans.user_id) %> </p>
+    				<p id="answer-name-feed"><%= @user.full_name %> </p>
+    				<p><%= ans.text %> </p>
+    					
+            			<!-- <p id = "downvote"> Downs <%= ans.downvote%> </p>  -->
     				
     				<form method="post" action="/answer/aid/vote/upvote">
         				<input type=hidden name= "answid"  value="<%= ans.id %>"/>
-			    		<input type=submit value="upvote -a">
+			    		<input type=submit value="|<%= ans.upvote%>| Up" >
 					</form>
 
-					<form method="post" action="/answer/aid/vote/downvote">
+				<!-- 	 <form method="post" action="/answer/aid/vote/downvote">
 						<input type=hidden name= "answid"  value="<%= ans.id %>"/>
 					    <input type=submit value="downvote -a">
-					</form>
+					</form>  -->
     			<% end %>
 
 
-    		</div>
+    		
            <% end %>
-         </div>
+        
+           
+        </div>
+        <br>
         <% end %>
 	  
 
