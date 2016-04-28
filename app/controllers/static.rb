@@ -52,7 +52,6 @@ end
 
 
 
-
 get '/urls/profile/:id' do 
 	@user = User.find(params[:id])
 	erb :"urls/profile"
@@ -61,6 +60,9 @@ end
 get '/logout' do
   session[:user_id] = nil
   session[:end_time] = Time.now.getutc
+  redirect '/'
+end
+get '/login' do
   redirect '/'
 end
 
@@ -84,11 +86,14 @@ end
 
 #adds quesiton to the table 
 post '/ask' do
-  @question = Question.create(params[:question])
-  @question.user_id = session[:user_id]
-  @question.upvote = 0
-  @question.downvote = 0
-  @question.save
+  if params[:question].length > 3
+    @question = Question.create(params[:question])
+    @question.user_id = session[:user_id]
+    @question.upvote = 0
+    @question.downvote = 0
+    @question.save
+    redirect '/home'
+  end
   redirect '/home'
 end  
 
