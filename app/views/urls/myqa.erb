@@ -1,11 +1,13 @@
 <html >
 	<head >
+		<link rel='stylesheet prefetch' href='http://fonts.googleapis.com/css?family=Roboto+Slab'>
+
 		<link href='https://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
 
 		<title>Quora</title>
 
 
-		<link href="/css/application.css" rel="stylesheet" type="text/css">
+		<link href="/css/inner.css" rel="stylesheet" type="text/css">
 		<script src="/js/jquery-1.12.3.min.js"></script>
 		<script type="text/javascript"  src ="/js/application.js"></script>
 	</head>
@@ -14,34 +16,33 @@
 
 	<body>
 		
-		<div>
-			<h1>  <%= session[:user_name] %> </h1>
-		</div>
+	
 
-		<button id="home" class="float-left submit-button" >Home</button>
+		<ul>
+			  <li style="float:left"><a  class="active" href="/home">QUORA?</a></li>
+			    <li style = "float:left">
 
-		<script type="text/javascript">
-	    	document.getElementById("home").onclick = function () {
-	        location.href = "http://localhost:9393/home";
-	    	};
-		</script>
-
-		<button id="logout" class="float-left submit-button" >Logout</button>
-
-		<script type="text/javascript">
-	    	document.getElementById("logout").onclick = function () {
-	        location.href = "http://localhost:9393/logout";
-	    	};
-		</script>
+				<form  method="post" action="/ask">
+				    <input taborder="1" type="text" class="enter-ques" placeholder="enter a question" name="text" > 
+				    <input type=submit value="Ask" id='ask-button'>
+				</form>
 
 
-		<button id="profile" class="float-left submit-button" >Profile</button>
 
-		<script type="text/javascript">
-	    	document.getElementById("profile").onclick = function () {
-	        location.href = "http://localhost:9393/urls/profile/<%=session[:user_id] %>";
-	    	};
-		</script>
+			  </li>
+			  <!-- <li><a href="/urls/askpage">ASK</a></li> -->
+			  
+
+
+			  <% if session[:user_id] == nil %>
+			  <% @status = "LOGIN" %>
+			  <% else %>
+			  <% @status = "LOGOUT" %>
+
+			  <% end%>
+			  <li><a href="/<%= @status.downcase %>"><%= @status%></a></li>
+			  <li><a href="/urls/profile/<%=session[:user_id] %>"> PROFILE</a></li>
+			</ul>
 
 		<br>
 

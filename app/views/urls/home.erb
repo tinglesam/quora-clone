@@ -22,7 +22,7 @@
 
 		<!--  NAV BAR -->
 			<ul>
-			  <li style="float:left"><a  class="active" href="/home">QUORA?</a></li>
+			  <li style="float:left"><a  class="active" href="/home">QUORA? <%= Question.first.answers.first.text %></a></li>
 			    <li style = "float:left">
 
 				<form  method="post" action="/ask">
@@ -56,13 +56,14 @@
 
 
 	     <div style="margin-top: 30px" class = "question">   
+	     	<%= will_paginate @question_sorted %>
         <% @question_sorted.each do |x| %>
-           <div class="container" id="body-feed">
+           <div class="container body-feed"  id="q<%=x.id%>">
           	 <!-- <a href = "/question/<%= x.id %>" > Question <%= x.id%> </a> -->
           	<!-- <br> <br> -->
           	<div style="clear: both">
 	            <h3 id="question-feed"> <a href = "/question/<%= x.id %>" ><%= x.text %> </a>
-	            <%= @user = User.find(x.user_id)%> 
+	            <% @user = User.find(x.user_id)%> 
 	            </h3> 
 
 	            <h4 id="name-first-answer"> Asked by: <%= @user.full_name %> </h4 >   
@@ -105,16 +106,19 @@
            		<!-- checks if the id of the question and answer match -->
 
     			<% if ans.question_id == x.id %>
-    			 <p> <%= @user = User.find(ans.user_id) %> </p>
-    				<p id="answer-name-feed"><%= @user.full_name %> </p>
-    				<p><%= ans.text %> </p>
-    					
+    			 <p> </p>
+    				
+    				<p class ="answer-text"> <%= ans.text %> </p>
+    				<div id="ans-info">
             			<!-- <p id = "downvote"> Downs <%= ans.downvote%> </p>  -->
     				
-    				<form method="post" action="/answer/aid/vote/upvote">
+    				<form method="post" action="/answer/aid/vote/upvote" id ="upvote-form">
         				<input type=hidden name= "answid"  value="<%= ans.id %>"/>
-			    		<input type=submit value="|<%= ans.upvote%>| Up" >
+			    		<input type=submit value=" Upvote | <%= ans.upvote%> " id ="upvote">
 					</form>
+					<p id="answer-name-feed"> Submitted by: <%= ans.user.full_name %> </p>
+
+					</div>
 
 				<!-- 	 <form method="post" action="/answer/aid/vote/downvote">
 						<input type=hidden name= "answid"  value="<%= ans.id %>"/>

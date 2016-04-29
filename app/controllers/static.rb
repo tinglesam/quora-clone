@@ -1,29 +1,29 @@
 require 'byebug'
 require 'bcrypt'
 require 'sinatra'
-require_relative '../models/user.rb'
 
 enable :sessions 
 
 #go home
 
-@question_sorted = []
-@answer_sorted = []
+# @question_sorted = []
+# @answer_sorted = []
 
 
 get '/home' do 
-    @question_sorted = []
-    Question.all.each do |ques|
-      @question_sorted << ques
-      @question_sorted.sort! { |a,b| b.upvote <=> a.upvote }
-    end
-    @answer_sorted = []
-    Answer.all.each do |ques|
-      @answer_sorted << ques
-      @answer_sorted.sort! { |a,b| b.upvote <=> a.upvote }
-    end
-  erb :"urls/home"
+    @question_sorted = Question.order(upvote: :desc).paginate(:page=> params[:page], :per_page =>5)
 
+    # Question.all.each do |ques|
+    #   @question_sorted << ques
+    #   @question_sorted.sort! { |a,b| b.upvote <=> a.upvote }
+    # end
+    @answer_sorted = Answer.order(upvote: :desc)
+    # Answer.all.each do |ques|
+    #   @answer_sorted << ques
+    #   @answer_sorted.sort! { |a,b| b.upvote <=> a.upvote }
+    # end
+
+  erb :"urls/home"
 end
 
 # get '/home' do 
@@ -90,7 +90,6 @@ end
 
 #adds quesiton to the table 
 post '/ask' do
-  byebug
   if params[:text].length > 3
     @question = Question.create(text: params[:text])
     @question.user_id = session[:user_id]
@@ -128,16 +127,14 @@ end
 
 #the id is that of the question 
 post '/answer/:id' do
-  @answer = Answer.create(params[:answer])
+  @answer = Answer.create(text: params[:answer])
   @answer.user_id = session[:user_id]
   @answer.question_id = params[:id]
   @answer.upvote = 0
   @answer.downvote = 0
   @answer.save
 
-
-  
-  redirect '/home'
+  {answer: @answer, user_name: @answer.user.full_name}.to_json #is the result for jquery 
 end  
 
    
@@ -164,7 +161,7 @@ post '/answer/aid/vote/:status' do
   @answer = Answer.find(params[:answid])
   case params[:status]
     when "downvote"
-      @answer.downvote += 1
+      @answer.upvote -= 1
     when "upvote"
       @answer.upvote += 1 
     end

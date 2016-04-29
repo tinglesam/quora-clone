@@ -24,6 +24,7 @@ gem 'acts_as_votable'
 
 # Adding rake for management
 gem 'rake'
+gem 'will_paginate', '~> 3.1.0'
 
 # Adding rspec for running unit testing
 gem 'rspec'

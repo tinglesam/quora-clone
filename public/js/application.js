@@ -19,16 +19,25 @@
 
 $(document).ready(function() {
     
-function loadDoc() {
-  var xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
-    if (xhttp.readyState == 4 && xhttp.status == 200) {
-      document.getElementById("demo").innerHTML = xhttp.responseText;
-    }
-  };
-  xhttp.open("GET", "ajax_info.txt", true);
-  xhttp.send();
-}
+$("#answer-button").unbind("click").on('click', function(event){
+	event.preventDefault(); //stops it from submitting the regular form
+	var formUrl = $(this).parent().attr('action');
+	var userAnswer = $(this).siblings().val();
+    $.ajax({
+    	url: formUrl, //the url that is searched for in controller
+    	method: 'post', 
+    	data: { answer: userAnswer },
+    	dataType: 'json',
+    	success: function(result){
+    		debugger;
+    		var userID = result['answer'].question_id;
+    		$("#q"+ userID).append('<p class ="answer-text">' + result['answer'].text + '</p>' + '<div id="ans-info"><form method="post" action="/answer/aid/vote/upvote" id ="upvote-form"><input type=hidden name= "answid"  value="'+ result['answer'].id + ' "/><input type=submit value=" Upvote | 0" id ="upvote"></form><p id="answer-name-feed"> Submitted by: ' + result['user_name'] +' </p></div>');
+    		//put quotes around html elements and then + the javascript elements
+        	//$("#answer-text").html(result['answer'].text);
+
+    	}
+    });
+});
 
     
 })

@@ -1,3 +1,5 @@
+require 'will_paginate'
+require 'will_paginate/active_record'
 require 'bcrypt'
 
 
@@ -29,7 +31,7 @@ class User < ActiveRecord::Base
 		    return nil
 		  end
 		end
-
+		
 end
 
 
